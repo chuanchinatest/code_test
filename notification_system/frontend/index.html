@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>通知中心 v2.0</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: #f5f5f5; }
+    
+    .layout {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    .sidebar {
+      width: 240px;
+      background: #1a1a2e;
+      color: white;
+      padding: 20px;
+      flex-shrink: 0;
+    }
+    
+    .main {
+      flex: 1;
+      padding: 24px;
+      min-width: 0;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    
+    .header h1 { font-size: 24px; }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .btn-primary {
+      background: #4f46e5;
+      color: white;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .stat-value {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+    
+    .stat-label {
+      font-size: 13px;
+      color: #666;
+    }
+    
+    .content {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 20px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .card h3 {
+      font-size: 16px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    
+    .notif-item {
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border-left: 3px solid #ccc;
+      background: #fafafa;
+    }
+    
+    .notif-item.info { border-left-color: #3b82f6; background: #eff6ff; }
+    .notif-item.success { border-left-color: #10b981; background: #ecfdf5; }
+    .notif-item.warning { border-left-color: #f59e0b; background: #fffbeb; }
+    .notif-item.error { border-left-color: #ef4444; background: #fef2f2; }
+    
+    .notif-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    
+    .notif-title { font-weight: 600; flex: 1; }
+    
+    .notif-status {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: #e5e7eb;
+    }
+    
+    .notif-status.pending { background: #fef3c7; color: #92400e; }
+    .notif-status.sent { background: #d1fae5; color: #065f46; }
+    
+    .notif-message {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    
+    .notif-meta {
+      font-size: 12px;
+      color: #888;
+      display: flex;
+      gap: 12px;
+    }
+    
+    .empty {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+    }
+    
+    @media (max-width: 900px) {
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .content { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>🔔 通知中心</h2>
+      <p style="margin-top: 20px; opacity: 0.7;">v2.0</p>
+      <nav style="margin-top: 30px;">
+        <div style="padding: 10px; background: rgba(255,255,255,0.1); border-radius: 6px; margin-bottom: 8px;">📋 全部通知</div>
+        <div style="padding: 10px; opacity: 0.7; margin-bottom: 8px;">⏰ 定时通知</div>
+        <div style="padding: 10px; opacity: 0.7;">📊 统计分析</div>
+      </nav>
+    </aside>
+    
+    <main class="main">
+      <div class="header">
+        <h1>全部通知</h1>
+        <button class="btn btn-primary" onclick="document.getElementById('title').focus()">+ 新建通知</button>
+      </div>
+      
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-label">总通知数</div>
+          <div class="stat-value" id="statTotal">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">未读通知</div>
+          <div class="stat-value" id="statUnread">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">已发送</div>
+          <div class="stat-value" id="statSent">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">待发送</div>
+          <div class="stat-value" id="statPending">0</div>
+        </div>
+      </div>
+      
+      <div class="content">
+        <div class="card">
+          <h3>创建通知</h3>
+          <form id="notifForm">
+            <input name="title" id="title" placeholder="标题" required>
+            <textarea name="message" placeholder="内容" required rows="3"></textarea>
+            <div class="form-row">
+              <select name="type">
+                <option value="info">信息</option>
+                <option value="success">成功</option>
+                <option value="warning">警告</option>
+                <option value="error">错误</option>
+              </select>
+              <input name="category" placeholder="分类">
+            </div>
+            <input name="scheduled_at" type="datetime-local">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">创建通知</button>
+          </form>
+        </div>
+        
+        <div class="card">
+          <h3>通知列表</h3>
+          <div id="notifications">
+            <div class="empty">加载中...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE = '/api'
+    let allNotifications = []
+
+    async function loadData() {
+      try {
+        const [notifRes, statsRes] = await Promise.all([
+          fetch(`${API_BASE}/notifications`),
+          fetch(`${API_BASE}/stats`)
+        ])
+        
+        const notifications = await notifRes.json()
+        const stats = await statsRes.json()
+        
+        allNotifications = Array.isArray(notifications) ? notifications : []
+        
+        document.getElementById('statTotal').textContent = stats.total || 0
+        document.getElementById('statUnread').textContent = stats.unread || 0
+        document.getElementById('statSent').textContent = allNotifications.filter(n => n.status === 'sent').length
+        document.getElementById('statPending').textContent = allNotifications.filter(n => n.status === 'pending').length
+        
+        renderList()
+      } catch (e) {
+        console.error('Load error:', e)
+        document.getElementById('notifications').innerHTML = '<div class="empty">加载失败: ' + e.message + '</div>'
+      }
+    }
+
+    function renderList() {
+      const container = document.getElementById('notifications')
+      if (allNotifications.length === 0) {
+        container.innerHTML = '<div class="empty">暂无通知</div>'
+        return
+      }
+      
+      container.innerHTML = allNotifications.map(n => `
+        <div class="notif-item ${n.type}">
+          <div class="notif-header">
+            <span>${n.type === 'success' ? '✅' : n.type === 'warning' ? '⚠️' : n.type === 'error' ? '❌' : 'ℹ️'}</span>
+            <span class="notif-title">${n.title}</span>
+            <span class="notif-status ${n.status}">${n.status}</span>
+          </div>
+          <div class="notif-message">${n.message}</div>
+          <div class="notif-meta">
+            <span>${n.category}</span>
+            <span>${new Date(n.created_at).toLocaleString()}</span>
+            ${n.scheduled_at ? `<span style="color: #e65100;">定时: ${new Date(n.scheduled_at).toLocaleString()}</span>` : ''}
+          </div>
+        </div>
+      `).join('')
+    }
+
+    document.getElementById('notifForm').addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const form = e.target
+      const payload = {
+        title: form.title.value,
+        message: form.message.value,
+        type: form.type.value,
+        category: form.category.value || 'general',
+        scheduled_at: form.scheduled_at.value ? new Date(form.scheduled_at.value).toISOString() : null
+      }
+      
+      try {
+        const res = await fetch(`${API_BASE}/notifications`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        const data = await res.json()
+        alert(data.message || '创建成功')
+        form.reset()
+        loadData()
+      } catch (err) {
+        alert('创建失败: ' + err.message)
+      }
+    })
+
+    // WebSocket
+    try {
+      const ws = new WebSocket('ws://localhost:8000/ws')
+      ws.onmessage = () => loadData()
+    } catch (e) {}
+
+    loadData()
+  </script>
+</body>
+</html>

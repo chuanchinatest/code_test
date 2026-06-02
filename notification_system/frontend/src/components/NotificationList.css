@@ -1,0 +1,140 @@
+.notification-list {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.list-header h2 {
+  font-size: 20px;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+
+.filters button.active {
+  background: #1976d2;
+  color: white;
+  border-color: #1976d2;
+}
+
+.refresh-btn {
+  padding: 8px 16px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.list-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.notif-card {
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #ccc;
+  background: #fafafa;
+}
+
+.notif-card.success { border-left-color: #4caf50; background: #f1f8e9; }
+.notif-card.warning { border-left-color: #ff9800; background: #fff3e0; }
+.notif-card.error { border-left-color: #f44336; background: #ffebee; }
+.notif-card.info { border-left-color: #2196f3; background: #e3f2fd; }
+
+.notif-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.notif-icon {
+  font-size: 20px;
+}
+
+.notif-title {
+  font-weight: 600;
+  flex: 1;
+}
+
+.notif-status {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #e0e0e0;
+}
+
+.notif-status.pending { background: #fff3e0; color: #e65100; }
+.notif-status.sent { background: #e8f5e9; color: #2e7d32; }
+.notif-status.cancelled { background: #ffebee; color: #c62828; }
+
+.notif-message {
+  color: #555;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.notif-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.notif-meta .scheduled {
+  color: #e65100;
+  font-weight: 500;
+}
+
+.notif-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.notif-actions button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.notif-actions button.danger {
+  color: #f44336;
+  border-color: #f44336;
+}

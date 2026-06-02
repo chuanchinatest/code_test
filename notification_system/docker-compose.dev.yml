@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: notification-backend-dev
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./backend:/app
+      - notification-data:/app/data
+    networks:
+      - notification-network
+    restart: no
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    image: node:20-alpine
+    container_name: notification-frontend-dev
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_WS_URL=ws://localhost:8000
+    networks:
+      - notification-network
+    restart: no
+    command: sh -c "npm install && npm run dev -- --host"
+
+networks:
+  notification-network:
+    driver: bridge
+
+volumes:
+  notification-data:
+    driver: local

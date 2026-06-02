@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>API Test - No React</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .success { color: green; }
+    .error { color: red; }
+    pre { background: #f5f5f5; padding: 10px; overflow: auto; }
+  </style>
+</head>
+<body>
+  <h1>API Connection Test</h1>
+  <div id="status">Testing...</div>
+  <div id="content"></div>
+  
+  <script>
+    async function testAPI() {
+      const status = document.getElementById('status')
+      const content = document.getElementById('content')
+      
+      try {
+        const res = await fetch('/api/notifications')
+        status.innerHTML = '<p class="success">HTTP Status: ' + res.status + '</p>'
+        
+        const data = await res.json()
+        const list = Array.isArray(data) ? data : []
+        
+        content.innerHTML = '<h2>Found ' + list.length + ' notifications</h2>' +
+          '<pre>' + JSON.stringify(list.slice(0, 2), null, 2) + '</pre>'
+      } catch (e) {
+        status.innerHTML = '<p class="error">Error: ' + e.message + '</p>'
+      }
+    }
+    
+    testAPI()
+  </script>
+</body>
+</html>

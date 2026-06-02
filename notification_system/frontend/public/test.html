@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Test</title>
+</head>
+<body>
+  <h1>API Test</h1>
+  <div id="result">Loading...</div>
+  <script>
+    fetch('/api/notifications')
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById('result').innerHTML = 
+          '<p>Success! Found ' + (Array.isArray(d) ? d.length : 0) + ' notifications</p>' +
+          '<pre>' + JSON.stringify(d, null, 2).substring(0, 500) + '</pre>'
+      })
+      .catch(e => {
+        document.getElementById('result').innerHTML = '<p style="color:red">Error: ' + e.message + '</p>'
+      })
+  </script>
+</body>
+</html>

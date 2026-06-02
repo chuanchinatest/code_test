@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: notification-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=production
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - notification-data:/app/data
+      - ./logs:/app/logs
+    networks:
+      - notification-network
+    restart: always
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: notification-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - notification-network
+    restart: always
+
+networks:
+  notification-network:
+    driver: bridge
+
+volumes:
+  notification-data:
+    driver: local

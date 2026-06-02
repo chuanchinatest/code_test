@@ -1,0 +1,192 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.app-header h1 {
+  font-size: 24px;
+  color: #1976d2;
+}
+
+.stats {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+.error-banner {
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+  color: #666;
+}
+
+.app-main {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+}
+
+.form-section, .list-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.form-section h2, .list-section h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.notif-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notif-form input, .notif-form textarea, .notif-form select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.notif-form input:focus, .notif-form textarea:focus, .notif-form select:focus {
+  outline: none;
+  border-color: #1976d2;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.notif-form button {
+  padding: 12px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.notif-form button:hover { background: #1565c0; }
+
+.empty {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}
+
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notif-card {
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid #ccc;
+  background: #fafafa;
+}
+
+.notif-card.success { border-left-color: #4caf50; background: #f1f8e9; }
+.notif-card.warning { border-left-color: #ff9800; background: #fff3e0; }
+.notif-card.error { border-left-color: #f44336; background: #ffebee; }
+.notif-card.info { border-left-color: #2196f3; background: #e3f2fd; }
+
+.notif-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.status-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #e0e0e0;
+  margin-left: auto;
+}
+
+.status-badge.pending { background: #fff3e0; color: #e65100; }
+.status-badge.sent { background: #e8f5e9; color: #2e7d32; }
+
+.notif-card p {
+  color: #555;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.notif-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.notif-meta .scheduled {
+  color: #e65100;
+  font-weight: 500;
+}
+
+.notif-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.notif-actions button {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.notif-actions button.danger {
+  color: #f44336;
+  border-color: #f44336;
+}
+
+@media (max-width: 768px) {
+  .app-main { grid-template-columns: 1fr; }
+  .app-header { flex-direction: column; gap: 12px; }
+}
